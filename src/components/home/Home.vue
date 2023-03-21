@@ -1,16 +1,24 @@
 <script setup>
 import { ref } from 'vue';
+import { store } from '../store';
 
-const userMessage = ref('Write to change message');
+/*
+FULL = abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
+uppercase = ABCDEFGHIJKLMNOPQRSTUVWXYZ
+symbolsRestrictive = !@#$%^&*()
+symbolsFull = !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+numbers = 0123456789
+*/
+
+const userMessage = ref('Type to change message');
 const message = ref(userMessage);
-const wordSize = ref(10);
 
 const reverse = () => {
     message.value = message.value.split('').reverse().join('');
 };
 
 const getRandomChar = () => {
-    var chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()';
+    var chars = store.randomizerString;
     return chars.charAt(Math.floor(Math.random() * chars.length));
 };
 
@@ -27,7 +35,7 @@ const toUpper = () => {
 };
 
 const randomString = (length) => {
-    var chars = 'abcdefghijklmnopqrstuvwxyz';
+    var chars = store.randomizerString;
     let res = '';
     for (let index = 0; index < length; index++) {
         res += chars.charAt(Math.floor(Math.random() * chars.length));
@@ -38,12 +46,11 @@ const randomString = (length) => {
 
 <template>
     <div>
-        <button class="btn-primary" @click="randomString(wordSize)">Random Word</button>
-        <input class="input-number" type="number" v-model="wordSize" :placeholder="[wordSize]" />
+        <button class="btn-primary" @click="randomString(store.size)">Random Word</button>
     </div>
     <div class="word-container">
         <button class="append-btn btn-primary" @click="removeFirst">-</button>
-        <h1>{{ message }}</h1>
+        <h1 class="text-3xl">{{ message }}</h1>
         <button class="append-btn btn-primary" @click="() => (message += getRandomChar())">+</button>
     </div>
     <div class="btn-container">
