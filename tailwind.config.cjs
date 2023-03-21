@@ -8,11 +8,11 @@ module.exports = {
     },
     plugins: [
         createThemes({
-            dark: {
-                main: '#23a9d5',
-                sub: '#4b5975',
-                text: '#ccccb5',
-                bg: '#1b2028',
+            stealth: {
+                main: '#eee',
+                sub: '#444',
+                text: '#d8d8d8',
+                bg: '#000',
             },
             forest: {
                 main: '#66ac92',

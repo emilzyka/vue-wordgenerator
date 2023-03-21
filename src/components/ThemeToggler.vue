@@ -9,77 +9,33 @@ const popupTrigger = ref({
 });
 const selectedTheme = ref('');
 
-//Currently only runs once, see setTimeout.
-setTimeout(() => {
-    if (popupTrigger.value.buttonTrigger) {
-        popupTrigger.value.buttonTrigger = false;
-    }
-}, 300000);
-
 const togglePopup = (trigger) => {
+    selectedTheme.value = document.querySelector('html').className;
     popupTrigger.value[trigger] = !popupTrigger.value[trigger];
     if (!popupTrigger.value.buttonTrigger) {
+        document.querySelector('html').className = selectedTheme.value;
         searchTheme.value = '';
     }
 };
 
 const handleTheme = (theme) => {
-    switch (theme) {
-        case 'forest':
-            localStorage.setItem('theme', 'forest');
-            document.querySelector('html').className = 'theme-forest';
+    localStorage.setItem('theme', theme);
+    document.querySelector('html').className = `theme-${theme}`;
 
-            // reset state
-            popupTrigger.value.buttonTrigger = false;
-            searchTheme.value = '';
-            break;
-        case 'sea':
-            localStorage.setItem('theme', 'sea');
-            document.querySelector('html').className = 'theme-sea';
-
-            // reset state
-            popupTrigger.value.buttonTrigger = false;
-            searchTheme.value = '';
-            break;
-        case 'dark':
-            localStorage.setItem('theme', 'dark');
-            document.querySelector('html').className = 'theme-dark';
-
-            // reset state
-            popupTrigger.value.buttonTrigger = false;
-            searchTheme.value = '';
-            break;
-        case 'light':
-            localStorage.setItem('theme', 'light');
-            document.querySelector('html').className = 'theme-light';
-
-            // reset state
-            popupTrigger.value.buttonTrigger = false;
-            searchTheme.value = '';
-            break;
-    }
+    // reset state
+    popupTrigger.value.buttonTrigger = false;
+    searchTheme.value = '';
 };
 
 const handlePreviewOnEnter = (theme) => {
     // This operation triggers on over mouseenter we could optimize by adding throttling
-    selectedTheme.value = document.querySelector('html').className;
-    switch (theme) {
-        case 'forest':
-            document.querySelector('html').className = 'theme-forest';
-            break;
-        case 'sea':
-            document.querySelector('html').className = 'theme-sea';
-            break;
-        case 'dark':
-            document.querySelector('html').className = 'theme-dark';
-            break;
-        case 'light':
-            document.querySelector('html').className = 'theme-light';
-            break;
-    }
+    setTimeout(() => {
+        document.querySelector('html').className = `theme-${theme}`;
+    }, 350);
 };
 
 const handlePreviewOnLeave = () => {
+    console.log(selectedTheme.value);
     document.querySelector('html').className = selectedTheme.value;
 };
 
@@ -107,12 +63,12 @@ const themes = [
     },
     {
         id: 2,
-        name: 'dark',
+        name: 'stealth',
         palette: {
-            main: 'p-1 rounded-full bg-[#23a9d5]',
-            sub: 'p-1 rounded-full bg-[#4b5975]',
-            text: 'p-1 rounded-full bg-[#ccccb5]',
-            bg: 'p-1 rounded-full bg-[#1b2028]',
+            main: 'p-1 rounded-full bg-[#eee]',
+            sub: 'p-1 rounded-full bg-[#444]',
+            text: 'p-1 rounded-full bg-[#d8d8d8]',
+            bg: 'p-1 rounded-full bg-[#000]',
         },
     },
     {
@@ -135,36 +91,34 @@ const filteredThemes = computed(() => {
 
 <template>
     <button @click="() => togglePopup('buttonTrigger')" class="btn-primary">Open</button>
-    <Popup
-        v-if="popupTrigger.buttonTrigger"
-        :togglePopup="() => togglePopup('buttonTrigger')"
-        :handleTheme="() => handleTheme(selectedTheme)">
-        <ul class="flex flex-col w-72 gap-5 m-2">
-            <div class="flex flex-row items-center justify-start">
-                <Icon icon="material-symbols:search" color="grey" />
-                <input
-                    class="p-2 text-lg bg-bg focus:outline-none focus:border-b-4 focus:rounded-sm focus:border-solid focus:border-sub text-text"
-                    type="text"
-                    v-model="searchTheme"
-                    placeholder="Type to search..." />
-            </div>
-            <li
-                class="grid grid-cols-2 rounded-md p-1 hover:bg-main hover:cursor-pointer"
-                v-for="theme in filteredThemes"
-                :key="theme.id"
-                @mouseenter="handlePreviewOnEnter(`${theme.name}`)"
-                @mouseleave="handlePreviewOnLeave()"
-                @click="handleTheme(`${theme.name}`)">
-                <button class="justify-self-start text-text text-xl">
-                    {{ theme.name }}
-                </button>
-                <div class="bg-gray-500 flex items-center gap-1 p-2 rounded-2xl justify-self-end">
-                    <button :class="theme.palette.bg"></button>
-                    <button :class="theme.palette.main"></button>
-                    <button :class="theme.palette.sub"></button>
-                    <button :class="theme.palette.text"></button>
+    <div>
+        <Popup v-if="popupTrigger.buttonTrigger" :togglePopup="() => togglePopup('buttonTrigger')">
+            <ul class="flex flex-col w-72 gap-5 m-2">
+                <div class="flex flex-row items-center justify-start">
+                    <Icon icon="material-symbols:search" color="grey" />
+                    <input
+                        class="p-2 text-lg bg-bg focus:outline-none focus:border-b-4 focus:rounded-sm focus:border-solid focus:border-sub text-text"
+                        type="text"
+                        v-model="searchTheme"
+                        placeholder="Type to search..." />
                 </div>
-            </li>
-        </ul>
-    </Popup>
+                <li
+                    class="grid grid-cols-2 rounded-md p-1 hover:bg-main hover:cursor-pointer"
+                    v-for="theme in filteredThemes"
+                    :key="theme.id"
+                    @mouseenter="handlePreviewOnEnter(`${theme.name}`)"
+                    @click="handleTheme(`${theme.name}`)">
+                    <button class="justify-self-start text-text text-xl">
+                        {{ theme.name }}
+                    </button>
+                    <div class="bg-gray-500 flex items-center gap-1 p-2 rounded-2xl justify-self-end">
+                        <button :class="theme.palette.bg"></button>
+                        <button :class="theme.palette.main"></button>
+                        <button :class="theme.palette.sub"></button>
+                        <button :class="theme.palette.text"></button>
+                    </div>
+                </li>
+            </ul>
+        </Popup>
+    </div>
 </template>
