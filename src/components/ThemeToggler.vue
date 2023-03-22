@@ -10,11 +10,12 @@ const popupTrigger = ref({
 const selectedTheme = ref('');
 
 const togglePopup = (trigger) => {
-    selectedTheme.value = document.querySelector('html').className;
     popupTrigger.value[trigger] = !popupTrigger.value[trigger];
     if (!popupTrigger.value.buttonTrigger) {
         document.querySelector('html').className = selectedTheme.value;
         searchTheme.value = '';
+    } else {
+        selectedTheme.value = document.querySelector('html').className;
     }
 };
 
