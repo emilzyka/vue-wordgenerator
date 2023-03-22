@@ -1,20 +1,5 @@
 <script></script>
 
 <template>
-    <nav class="navbar">
-        <p>Home</p>
-        <p>|</p>
-        <p>FAQ</p>
-    </nav>
+    <header class="text-3xl text-center mt-8 text-text font-bold">Random Fake Word</header>
 </template>
-
-<style>
-.navbar {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 20px;
-}
-</style>

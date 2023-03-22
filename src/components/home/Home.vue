@@ -45,48 +45,24 @@ const randomString = (length) => {
 </script>
 
 <template>
-    <div>
-        <button class="btn-primary" @click="randomString(store.size)">Random Word</button>
+    <div class="flex items-center justify-center mt-16">
+        <div class="flex flex-row gap-8">
+            <button class="append-btn btn-primary" @click="removeFirst">-</button>
+            <h1 class="text-4xl text-text">{{ message }}</h1>
+            <button class="append-btn btn-primary" @click="() => (message += getRandomChar())">+</button>
+        </div>
     </div>
-    <div class="word-container">
-        <button class="append-btn btn-primary" @click="removeFirst">-</button>
-        <h1 class="text-3xl">{{ message }}</h1>
-        <button class="append-btn btn-primary" @click="() => (message += getRandomChar())">+</button>
+    <div class="flex justify-center mt-8">
+        <button class="btn-primary w-1/4" @click="randomString(store.size)">Random Word</button>
     </div>
-    <div class="btn-container">
-        <input class="input-field" type="text" v-model="userMessage" :placeholder="[message]" />
-        <button class="btn-primary" @click="reverse">Reverse text</button>
-        <button class="btn-primary" @click="toUpper">To Upper</button>
+    <div class="flex justify-center items-center mt-6">
+        <div class="grid w-1/4 grid-cols-2 gap-6">
+            <button class="btn-primary" @click="reverse">Reverse text</button>
+            <button class="btn-primary" @click="toUpper">To Upper</button>
+            <button class="btn-primary" @click="toUpper">To Upper</button>
+            <button class="btn-primary" @click="toUpper">To Upper</button>
+            <button class="btn-primary" @click="toUpper">To Upper</button>
+            <button class="btn-primary" @click="toUpper">To Upper</button>
+        </div>
     </div>
 </template>
-
-<style scoped>
-.append-btn {
-    margin-top: 15px;
-}
-
-.word-container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 30px;
-}
-
-.input-field {
-    padding: 10px;
-}
-
-.input-number {
-    width: 50px;
-    margin-left: 10px;
-    border-radius: 5px;
-}
-
-.btn-container {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin: 5px;
-}
-</style>

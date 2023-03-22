@@ -35,11 +35,6 @@ const handlePreviewOnEnter = (theme) => {
     }, 350);
 };
 
-const handlePreviewOnLeave = () => {
-    console.log(selectedTheme.value);
-    document.querySelector('html').className = selectedTheme.value;
-};
-
 //Array with all themes can be put in other file if it grows to large.
 const themes = [
     {

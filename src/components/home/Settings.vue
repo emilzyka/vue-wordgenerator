@@ -58,32 +58,39 @@ const events = [
 
 <template>
     <div class="flex items-center justify-center">
-        <div class="grid grid-cols-4 bg-sub w-2/4 rounded-lg p-3">
-            <div class="col-span-2 flex items-center justify-start ml-5 gap-4">
+        <div class="grid grid-cols-9 bg-sub w-2/4 rounded-md p-1.5">
+            <div class="col-span-4 flex items-center justify-start ml-5 gap-4">
                 <div class="flex items-center gap-1" v-for="event in events" :key="event.id">
-                    <Icon v-if="store.randomizerString.includes(event.string)" icon="material-symbols:remove" class="text-text w-6 h-6" />
-                    <Icon v-else icon="material-symbols:add" class="text-text w-6 h-6" />
-                    <button @click="handleMutation(event.string)" class="text-text text-lg hover:text-main">{{ event.name }}</button>
+                    <Icon v-if="store.randomizerString.includes(event.string)" icon="material-symbols:remove" class="text-text w-4 h-4" />
+                    <Icon v-else icon="material-symbols:add" class="text-text w-4 h-4" />
+                    <button @click="handleMutation(event.string)" class="text-text text-md hover:text-main">{{ event.name }}</button>
                 </div>
-                <div class="bg-main h-8 w-1.5 rounded-full"></div>
+                <div class="bg-main h-6 w-1 rounded-full"></div>
             </div>
-            <div class="col-span-2 justify-center flex items-center gap-5">
-                <button class="text-text text-lg hover:text-main" @click="handleSize('reset')">reset</button>
+            <div class="col-span-2 justify-start flex items-center gap-5">
+                <button
+                    class="text-text text-lg hover:text-main"
+                    @click="
+                        handleSize('reset');
+                        wordSize = 12;
+                    ">
+                    reset
+                </button>
                 <Icon
                     @click="
                         wordSize--;
                         handleSize('decrement');
                     "
                     icon="material-symbols:arrow-downward"
-                    class="text-text w-6 h-6 hover:text-main hover:cursor-pointer" />
-                <h1 type="number" class="text-text text-lg">{{ wordSize }}</h1>
+                    class="text-text w-4 h-4 hover:text-main hover:cursor-pointer" />
+                <h1 type="number" class="text-text text-md">{{ wordSize }}</h1>
                 <Icon
                     @click="
                         wordSize++;
                         handleSize('increment');
                     "
                     icon="mdi:arrow-up"
-                    class="text-text w-6 h-6 hover:text-main hover:cursor-pointer" />
+                    class="text-text w-4 h-4 hover:text-main hover:cursor-pointer" />
             </div>
         </div>
     </div>
